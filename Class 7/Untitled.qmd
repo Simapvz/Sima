@@ -1,0 +1,115 @@
+---
+title: "Class07"
+author: "Sima Parvizi Omran"
+format: pdf
+---
+
+# Principal Component Analysis
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url)
+x
+```
+Here, we want to change the rowname x - much better
+
+```{r}
+url <- "https://tinyurl.com/UK-foods"
+x <- read.csv(url, row.names=1)
+x
+```
+
+
+```{r}
+barplot( as.matrix(x) )
+```
+```{r}
+mycols <- rainbow(nrow(x))
+barplot( as.matrix(x), col=mycols )
+```
+
+
+ Make it side by side not stacked
+
+```{r}
+barplot( as.matrix(x), col=mycols, beside=T)
+```
+
+One plot that is helpful here. 
+
+```{r}
+pairs(x)
+```
+
+```{r}
+pairs(x, col=mycols)
+```
+
+# PCA to the rescue!
+
+Do PCA of this 17D UK food data. The main function in base R is called 'prcomp(). This function rquires the transpose of our data in this case...
+
+
+```{r}
+
+pca <- prcomp( t(x) )
+summary(pca)               
+```
+
+The 'prcom()' function returns a list object. Below shows main action in PC1. 
+
+```{r}
+plot(pca)
+```
+PCA plot also known as PCA score plot. is a plot of PC1 vs PC2. Basically using the new PCA axix to view our data. 
+
+```{r}
+attributes(pca)
+```
+we will focus on 'pca$x' for this plot 
+
+```{r}
+pca$x
+```
+
+```{r}
+plot(pca$x[,1], pca$x[,2], xlab="PC1", ylab= "PC2")
+```
+
+# PCA of RNA-Seq 
+
+```{r}
+url2 <- "https://tinyurl.com/expression-CSV"
+rna.data <- read.csv(url2, row.names=1)
+head(rna.data)
+```
+
+```{r}
+pca <-prcomp( t(rna.data) )
+summary(pca)
+```
+Make our PCA score plot 
+
+```{r}
+plot(pca$x[,1:2])
+text(pca$x[,1:2], labels = colnames(rna.data))
+```
+
+
+
+
+
+
+
+
+
+
+
+## Quarto
+
+Quarto enables you to weave together content and executable code into a finished document. To learn more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
+
